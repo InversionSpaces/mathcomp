@@ -1,0 +1,66 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsbsy}
+\usepackage{tabto}
+\usepackage[	left=2cm,right=2cm, 
+		top=2cm,bottom=2cm,
+		bindingoffset=0cm]
+			{geometry}
+\begin{document}
+\parskip=0.5ex
+
+\par
+TSC - TimeStamp Counter, средство подсчёта времени для компьютера.
+\par
+В ассемблере есть команда - RDTSC - Read TimeStamp Counter.
+\par
+Как оценить время выполнение программы? Можно попробовать посчитать время выполнения в тиках каждой команды в ассеблерном коде программы.
+\par
+Но лучше найдём функцию, схожую с функцией роста времени выполнения программы в зависимости от размера входных данных.
+
+\section{Время работы}
+RAM - модель
+\begin{enumerate}
+	\item Real RAM - каждой команде процессора сопоставим константу времени.
+	\item Word RAM
+	\item Cell-probe - константы только операциям, обращающимся в память.
+\end{enumerate}
+$T(n)$ - время работы
+\begin{enumerate}
+\item $T(n) = k$ Константа
+\item $T(n) = cn$ Линейная
+\item $T(n) = e^n$ Экспоненциальная
+\end{enumerate}
+\section{Нотация O-Big}
+$O, \Theta, \Omega, \omega:$
+
+$g(x) \in O(f(x)): (\exists  x_0, c > 0) (\forall x > x_0) g(x) \leq c f(x)$ - Ограничение сверху с некоторого элемента.
+
+$g(x) \in \Omega(f(x)): (\exists  x_0, c > 0) (\forall x > x_0) g(x) \geq c f(x)$ - Ограничение снизу с некоторого элемента.
+
+$g(x) \in \Theta(f(x)): g(x) \in \Omega(f(x)) \cup  O(f(x))$ - Ограничение сверху и снизу одной функцией.
+
+$g(x) \in \omega(f(x)): (\forall c > 0) (\exists x_0 \forall x > x_0) g(x) > c f(x)$ 
+
+Свойства:
+
+$f(x) \in \Theta(g(x)) \Leftrightarrow g(x) \in \Theta(f(x))$
+
+$g(x) \in \Theta(g(x))$
+
+$g(x) \in \Theta(f(x)) \text{ и }
+z(x) \in \Theta(g(x)) \Rightarrow 
+z(x) \in \Theta(f(x))$
+
+$\Theta$ рефлексивна, симметрична, транзитивна. Это отношение эквивалентности.
+
+\section{Амортизационный анализ}
+На примере алгоритма инкримента
+
+$O_a(T(n)) = n + \dfrac{n}{10} + \dfrac{n}{10^2} + \cdots + \dfrac{n}{10^{[\lg{n}]}} < \dfrac{10}{9} n$
+
+$\dfrac{O_a(n)}{n} = const$
+
+\end{document}

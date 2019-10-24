@@ -1,0 +1,1 @@
+cat input | sed "s/[^a-zA-Z ]//g" | sed "s/\(.*\)/\L\1/" | sed "s/\s/\n/g" | sort | uniq | while read line; do echo $(echo $line | cksum | hex); done;

@@ -1,0 +1,50 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsbsy}
+\begin{document}
+\begin{center}
+$F_n = \dfrac{\left(\dfrac{1 + \sqrt{5}}{2}\right)^n - \left(\dfrac{1 - \sqrt{5}}{2}\right)^n}{\sqrt{5}}$
+\begin{flushleft}
+Равносильно
+\end{flushleft}
+$F_0 = 0$, $F_1 = 1$, $F_n = F_{n - 1} + F_{n - 2}$
+\begin{flushleft}
+Докажем по индукции:
+\begin{enumerate}
+	\item База индукции:
+		члены последовательностей
+		$F_0 = \dfrac{\left(\dfrac{1 + \sqrt{5}}{2}\right)^0 - \left(\dfrac{1 - \sqrt{5}}{2}\right)^0}{\sqrt{5}} = 
+		\dfrac{1 - 1}{\sqrt{5}} = 0$ и 
+		$F_1 = \dfrac{\left(\dfrac{1 + \sqrt{5}}{2}\right)^1 - \left(\dfrac{1 - \sqrt{5}}{2}\right)^1}{\sqrt{5}} = 
+		\dfrac{\dfrac{2 \sqrt{5}}{2}}{\sqrt{5}} = 1$ совпадают.
+	\item Предположение индукции: члены последовательностей $F_n$ и $F_{n - 1}$ совпадают.
+	\item Переход индукции:
+		$F_{n + 1} = F_{n} + F_{n - 1}$
+		$\dfrac{\left(\dfrac{1 + \sqrt{5}}{2}\right)^{n + 1} - \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n + 1}}{\sqrt{5}} =
+		 \dfrac{\left(\dfrac{1 + \sqrt{5}}{2}\right)^n - \left(\dfrac{1 - \sqrt{5}}{2}\right)^n}{\sqrt{5}} + 
+		 \dfrac{\left(\dfrac{1 + \sqrt{5}}{2}\right)^{n - 1} - \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n - 1}}{\sqrt{5}}$
+		$\Leftrightarrow$
+		$\left(\dfrac{1 + \sqrt{5}}{2}\right)^{n + 1} - \left(\dfrac{1 + \sqrt{5}}{2}\right)^{n} - 
+		 \left(\dfrac{1 + \sqrt{5}}{2}\right)^{n - 1} = \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n + 1} - 
+		 \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n} - \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n - 1}$
+		$\Leftrightarrow$
+		$\left(\dfrac{1 + \sqrt{5}}{2}\right)^{n - 1} \left( \left(\dfrac{1 + \sqrt{5}}{2}\right)^{2} - 
+		 \left(\dfrac{1 + \sqrt{5}}{2}\right) - 1 \right) = \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n - 1} 
+		 \left( \left(\dfrac{1 - \sqrt{5}}{2}\right)^{2} - \left(\dfrac{1 - \sqrt{5}}{2}\right) - 1 \right)$
+		$\Leftrightarrow$
+		$\left(\dfrac{1 + \sqrt{5}}{2}\right)^{n - 1} \cdot \left(0\right) = 
+		 \left(\dfrac{1 - \sqrt{5}}{2}\right)^{n - 1} \cdot \left(0\right)$
+		\begin{center}
+		Верное равенство. Если совпадают члены последовательностей $F_n$ и $F_{n - 1}$, 
+		то совпадает член последовательностей $F_{n + 1}$.
+		ЧТД.
+		\end{center}
+\end{enumerate}
+\end{flushleft}
+\end{center}
+\begin{center}
+Made with \LaTeX{}, Vim and pain
+\end{center}
+\end{document}
