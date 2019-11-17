@@ -488,6 +488,52 @@ bool is_euler(matrix<int> kirf)
 	return odd != 1;
 }
 
+bool is_transitive(matrix<int> adj)
+{
+	assert(adj.sizex == adj.sizey);
+	
+	size_t n = adj.sizex;
+	
+	for (size_t i = 0; i < n; i++) 
+		for (size_t j = 0; j < n; ++j)
+			for (size_t k = 0; k < n; ++k)
+				if (adj[i][k] && adj[k][j] && !adj[i][j])
+					return false;
+	
+	return true;
+}
+
+bool is_reflexive(matrix<int> adj)
+{
+	assert(adj.sizex == adj.sizey);
+
+	size_t n = adj.sizex;
+	
+	for (size_t i = 0; i < n; ++i)
+		if (!adj[i][i]) return false;
+		
+	return true;
+}
+
+bool is_symetric(matrix<int> adj)
+{
+	assert(adj.sizex == adj.sizey);
+
+	size_t n = adj.sizex;
+	
+	for (size_t i = 0; i < n; ++i)
+		for (size_t j = i; j < n; ++j)
+			if (adj[i][j] != adj[j][i]) return false;
+			
+	return true;
+}
+
+void print_ans(ofstream& out, bool cond)
+{
+	if (cond) out << "YES" << endl;
+	else out << "NO" << endl;
+}
+
 int main()
 {	
 	ifstream in("input.txt");
@@ -499,10 +545,9 @@ int main()
 	matrix<int> m(n);
 	in >> m;
 	
-	if (is_euler(kirf_matrix(m)))
-		out << "YES";
-	else
-		out << "NO";
+	print_ans(out, is_transitive(m));
+	print_ans(out, is_reflexive(m));
+	print_ans(out, is_symetric(m));
 	
 	in.close();
 	out.close();

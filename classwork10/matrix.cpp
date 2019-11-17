@@ -400,9 +400,17 @@ matrix reverse(const matrix& a)
 	return (ur * lr);
 }
 
-#include <stdlib.h>
+matrix adj_matrix(matrix adj)
+{
+	for (int i = 0; i < n; ++i)
+		for (int j = 0; j < n; ++j)
+			for (int k = 0; k < n; ++k)
+				adj[j][k] = adj[j][k] + adj[j][i] * adj[i][k];
 
-int main()
+	return adj;
+}
+
+void kirf()
 {
 	ifstream in("input.txt");
 	ofstream out("output.txt");
@@ -410,25 +418,33 @@ int main()
 	int n = 0;
 	in >> n;
 	
-	matrix m1(n, n);
+	matrix adj(n);
 	
-	in >> m1;
-	//cout << m1;
+	in >> adj;
 	
-	matrix t = reverse(m1);
+	matrix power(n);
+	power.set(0);
 	
-	//cout << t;	
+	for (int i = 0; i < n; ++i) {
+		int tmp = 0;
+		
+		for (int j = 0; j < n; ++j) {
+			if (i == j) continue;
+			
+			tmp += lround(adj[i][j]);
+		}
+		
+		power[i][i] = tmp;
+		adj[i][i] = 0.f;
+	}
 	
-	out << setprecision(1) << fixed;
-	out << t;
-	//cout << t * m1;
-	//cout << endl << t * m1;
-	/*
-	LU lu = LUfact(m1);
+	out << n << endl;
+	out << (power - adj);
 	
-	cout << lu.L << endl << lu.U;
-	*/
-
 	in.close();
 	out.close();
+}
+
+int main()
+{
 }
