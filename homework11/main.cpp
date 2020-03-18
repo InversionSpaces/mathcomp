@@ -156,7 +156,7 @@ public:
 };
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type> 
+inline matrix<typename std::common_type<T, U>::type> 
 	operator/(const matrix<T>& b, const U& a)
 {
 	matrix<typename std::common_type<T, U>::type> 
@@ -169,7 +169,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type>
+inline matrix<typename std::common_type<T, U>::type>
 	operator*(const U& a, const matrix<T>& b)
 {
 	matrix<typename std::common_type<T, U>::type>
@@ -182,7 +182,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type>
+inline matrix<typename std::common_type<T, U>::type>
 	operator*(const matrix<T>& b, const U& a)
 {
 	matrix<typename std::common_type<T, U>::type>
@@ -195,7 +195,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type> 
+inline matrix<typename std::common_type<T, U>::type> 
 	operator*(const matrix<T>& a, const matrix<U>& b)
 {
 	assert(a.sizey == b.sizex);
@@ -214,7 +214,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type>
+inline matrix<typename std::common_type<T, U>::type>
 	operator+(const matrix<T>& a, const matrix<U>& b)
 {
 	assert(a.sizex == b.sizex);
@@ -230,7 +230,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type> 
+inline matrix<typename std::common_type<T, U>::type> 
 	operator-(const matrix<T>& a, const matrix<U>& b)
 {
 	assert(a.sizex == b.sizex);
@@ -246,7 +246,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T>
-istream& operator>>(istream& in, matrix<T>& m)
+inline istream& operator>>(istream& in, matrix<T>& m)
 {
 	for (size_t i = 0; i < m.sizex * m.sizey; ++i)
 		in >> m.data[i];
@@ -255,7 +255,7 @@ istream& operator>>(istream& in, matrix<T>& m)
 }
 
 template<typename T>
-ostream& operator<<(ostream& out, const matrix<T>& m)
+inline ostream& operator<<(ostream& out, const matrix<T>& m)
 {
 	for (size_t i = 0; i < m.sizex; ++i) {
 		for (size_t j = 0; j < m.sizey; ++j)
@@ -273,7 +273,7 @@ struct LU
 };
 
 template<typename T>
-LU<T> LUfact(const matrix<T>& A)
+inline LU<T> LUfact(const matrix<T>& A)
 {
 	assert(A.sizex == A.sizey);
 	
@@ -317,7 +317,7 @@ LU<T> LUfact(const matrix<T>& A)
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type> 
+inline matrix<typename std::common_type<T, U>::type> 
 	__fast_mul(const matrix<T>& _a, const matrix<U>& _b)
 {
 	using C = typename std::common_type<T, U>::type;
@@ -365,7 +365,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T, typename U>
-matrix<typename std::common_type<T, U>::type> 
+inline matrix<typename std::common_type<T, U>::type> 
 	fast_mul(const matrix<T>& a, const matrix<U>& b)
 {
 	assert(a.sizey == b.sizex);
@@ -388,7 +388,7 @@ matrix<typename std::common_type<T, U>::type>
 }
 
 template<typename T>
-matrix<T> upreverse(const matrix<T>& a)
+inline matrix<T> upreverse(const matrix<T>& a)
 {
 	assert(a.sizex == a.sizey);
 	
@@ -417,7 +417,7 @@ matrix<T> upreverse(const matrix<T>& a)
 }
 
 template<typename T>
-matrix<T> reverse(const matrix<T>& a)
+inline matrix<T> reverse(const matrix<T>& a)
 {
 	assert(a.sizex == a.sizey);
 	
@@ -432,7 +432,7 @@ matrix<T> reverse(const matrix<T>& a)
 	return (ur * lr);
 }
 
-matrix<int> adj_matrix(matrix<int> adj)
+inline matrix<int> adj_matrix(matrix<int> adj)
 {
 	assert(adj.sizex == adj.sizey);
 	
@@ -446,7 +446,7 @@ matrix<int> adj_matrix(matrix<int> adj)
 	return adj;
 }
 
-matrix<int> kirf_matrix(matrix<int> adj)
+inline matrix<int> kirf_matrix(matrix<int> adj)
 {	
 	assert(adj.sizex == adj.sizey);
 	
@@ -471,7 +471,7 @@ matrix<int> kirf_matrix(matrix<int> adj)
 	return power - adj;
 }
 
-bool is_euler(matrix<int> kirf)
+inline bool is_euler(matrix<int> kirf)
 {
 	assert(kirf.sizex == kirf.sizey);
 	
@@ -488,22 +488,95 @@ bool is_euler(matrix<int> kirf)
 	return odd != 1;
 }
 
+template<typename T, typename F>
+int iterate(T *arr, int n, F& functor)
+{
+	int c[n] = {0};
+	int i = 0;
+	
+	int res = functor(arr, n);
+	if (res) return res;
+	
+	// If you are reading this - i dunno how this is working
+	
+	while (i < n) {
+		if (c[i] < i) {
+			if (i % 2 == 0) swap(arr[0], arr[i]);
+			else swap(arr[c[i]], arr[i]);
+			
+			res = functor(arr, n);
+			if (res) return res;
+			
+			c[i] += 1;
+			i = 0;
+		}
+		else c[i++] = 0;
+	}
+}
+
+void print(int* arr, int n)
+{
+	for (int i = 0; i < n; ++i)
+		cout << arr[i] << " ";
+	cout << endl;
+}
+
+struct gamilton_solver
+{
+	const matrix<double>& m;
+	
+	double result;
+	
+	void solve()
+	{
+		result = numeric_limits<double>::infinity();
+		
+		int arr[m.sizex];
+		for (int i = 0; i < m.sizex; ++i)
+			arr[i] = i;
+			
+		iterate(arr, m.sizex, *this);
+	}
+	
+	int operator()(int* arr, int n)
+	{
+		double tmp = 0;
+		
+		print(arr, n);
+		
+		for (int i = 0; i < n - 1; i++) {
+			if (m[arr[i]][arr[i + 1]] != -1)
+				tmp += m[arr[i]][arr[i + 1]];
+			else return 0;
+		}
+		
+		if (tmp < result)
+			result = tmp;
+		
+		return 0;
+	}
+};
+
 int main()
-{	
+{
 	ifstream in("input.txt");
 	ofstream out("output.txt");
 	
 	int n = 0;
 	in >> n;
 	
-	matrix<int> m(n);
+	matrix<double> m(n);
 	in >> m;
 	
-	if (is_euler(kirf_matrix(m)))
-		out << "YES";
-	else
-		out << "NO";
+	gamilton_solver solver = {m};
 	
+	solver.solve();
+	
+	if (isfinite(solver.result))
+		out << fixed << setprecision(2) << solver.result;
+	else
+		out << "OH NO!!!";
+
 	in.close();
 	out.close();
 }
